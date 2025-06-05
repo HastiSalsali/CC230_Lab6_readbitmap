@@ -17,7 +17,7 @@ typedef struct tagBITMAPINFOHEADER {
 	DWORD biSizeImage;     // Size of the image data in bytes (may be 0 for uncompressed images)
 	LONG  biXPelsPerMeter; // Horizontal resolution (pixels per meter)
 	LONG  biYPelsPerMeter; // Vertical resolution (pixels per meter)
-	DWORD biClrUsed;       // Number of colors in the color palette (0 = default)
+	DWORD biClrUsed;       // Number of colors in the color palette (0 = default)F
 	DWORD biClrImportant;  // Number of important colors (0 = all colors are important)
 } BITMAPINFOHEADER;
 
@@ -31,9 +31,9 @@ using namespace std;
 
 const int NUM_INPUT_COLORS = 64;
 struct RGB_NAME {
-	uint8_t red;
-	uint8_t green;
-	uint8_t blue;
+	int red;
+	int green;
+	int blue;
 	string colorName;
 	int count = 0;
 };
@@ -131,7 +131,6 @@ int main(int argc, char* argv[])
 	bmpIn.read(reinterpret_cast<char*>(imageData), /*bmih.biWidth * bmih.biHeight*/ imageSize);
 
 	pBitMap = static_cast<uint8_t*>(imageData);
-	cout << pBitMap[0] << endl;
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
 		cout << "checking for color " << searchColorArr[i].colorName << endl;
 		for (int j = 0; j < bmih.biHeight * bmih.biWidth; j++) {
