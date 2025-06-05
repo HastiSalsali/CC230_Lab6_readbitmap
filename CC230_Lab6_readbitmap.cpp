@@ -31,10 +31,11 @@ using namespace std;
 
 const int NUM_INPUT_COLORS = 64;
 struct RGB_NAME {
-	int red;
-	int green;
-	int blue;
+	uint8_t red;
+	uint8_t green;
+	uint8_t blue;
 	string colorName;
+	int count = 0;
 };
 
 int main(int argc, char* argv[])
@@ -90,8 +91,10 @@ int main(int argc, char* argv[])
 	LPVOID imageData;
 	ifstream ColorFileIn;
 	RGB_NAME searchColorArr[NUM_INPUT_COLORS];
-	short *pBitMap, rVal, gVal, bVal;
-	
+	uint8_t *pBitMap;
+	int numColorsFound = 0;
+
+
 	ColorFileIn.open("C:\\Users\\hasti\\iCloudDrive\\My Documents\\Educational_\\Pierce college\\CS 230\\homework\\CC230_Lab6_readbitmap\\Temp\\Colors64.txt");
 	if (ColorFileIn.fail() || ColorFileIn.bad()){
 		cout << "Error reading input file, ending\n";
@@ -110,6 +113,7 @@ int main(int argc, char* argv[])
 
 	bmpIn.seekg(bmfh.bfOffBits, ios::beg);
 	bmpIn.read((char*)imageData, imageSize);
+
 	if (bmpIn.fail() || bmpIn.bad()) {
 		cout << "Error reading image data, ending\n";
 		VirtualFree(imageData, 0, MEM_RELEASE);
@@ -124,13 +128,22 @@ int main(int argc, char* argv[])
 	}
 	//Read bitmap into imageData
 	bmpIn.seekg(bmfh.bfOffBits, ios::beg);
-	bmpIn.read(reinterpret_cast<char*>(&imageData), bmih.biWidth * bmih.biHeight);
+	bmpIn.read(reinterpret_cast<char*>(imageData), /*bmih.biWidth * bmih.biHeight*/ imageSize);
 
-	pBitMap = static_cast<short*>(&imageData);
-
+	pBitMap = static_cast<uint8_t*>(imageData);
+	cout << pBitMap[0] << endl;
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
+		cout << "checking for color " << searchColorArr[i].colorName << endl;
 		for (int j = 0; j < bmih.biHeight * bmih.biWidth; j++) {
-			
+			if (pBitMap[3 * j] == searchColorArr[i].blue &&
+				pBitMap[3 * j + 1] == searchColorArr[i].green &&
+				pBitMap[3 * j + 2] == searchColorArr[i].red) {
+				searchColorArr[i].count++;
+				cout << "found the color " << searchColorArr[i].colorName << endl;
+			}
+		}
+		if (searchColorArr[i].count > 0) {
+			numColorsFound++;
 		}
 	}
 
