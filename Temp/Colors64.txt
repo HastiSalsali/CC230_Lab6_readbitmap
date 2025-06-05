@@ -1,0 +1,64 @@
+253	213	177	Apricot
+123	160	91	Asparagus
+254	111	94	Bittersweet
+0	0	0	Black
+0	102	255	Blue
+0	149	183	Blue Green
+100	86	83	Blue Violet
+198	45	6	Brick Red
+175	89	2	Brown
+255	112	52	Burnt Orange
+233	116	81	Burnt Sienna
+169	178	195	Cadet Blue
+255	166	201	Carnation Pink
+2	164	211	Cerulean
+185	78	2	Chestnut
+147	204	234	Cornflower
+254	216	93	Dandelion
+95	167	119	Forest Green
+146	146	103	Gold
+252	214	103	Goldenrod
+157	224	147	Granny Smith Apple
+139	134	128	Gray
+58	166	85	Green
+241	231	136	Green Yellow?
+79	105	198	Indigo
+191	143	204	Lavender
+255	185	123	Macaroni and Cheese
+246	83	166	Magenta 
+202	52	53	Mahogany
+240	145	169	Mauvelous
+254	186	173	Melon
+181	179	92	Olive Green
+255	136	51	Orange 
+226	156	210	Orchid
+0	157	196	Pacific Blue
+255	203	164	Peach
+195	205	230	Periwinkle
+142	49	121	Plum 
+214	174	221	Purple Mountain's Majesty
+210	125	70	Raw Sienna
+237	10	63	Red 
+255	104	31	Red Orange
+187	51	133	Red Violet 
+0	204	204	Robin's Egg Blue
+255	145	164	Salmon
+253	14	51	Scarlet 
+147	223	184	Sea Green
+158	91	64	Sepia 
+201	192	187	Silver
+118	215	234	Sky Blue
+236	235	189	Spring Green
+217	154	108	Tan
+252	128	165	Tickle Me Pink
+217	214	207	Timberwolf
+222	166	129	Tumbleweed
+108	218	231	Turquoise Blue
+115	46	108	Violet
+247	70	138	Violet Red 
+255	255	255	White?
+255	51	153	Wild Strawberry 
+201	160	220	Wisteria
+252	232	112	Yellow 
+197	225	122	Yellow Green
+255	174	66	Yellow Orange
