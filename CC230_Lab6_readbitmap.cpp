@@ -9,7 +9,7 @@ Visual Studio */
 #include "windows.h"
 using namespace std;
 
-const int NUM_INPUT_COLORS = 64;
+const int NUM_INPUT_COLORS = 64, NAME_WIDTH = 30;
 struct RGB_NAME {
 	int red;
 	int green;
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	cout << "CS230 Lab 6 - Reading a Bitmap File\n""Hasti Salsali\n";
 	BITMAPFILEHEADER bmfh;
 	BITMAPINFOHEADER bmih;
-	char PictureFileIN[] = "C:\\Users\\hasti\\OneDrive\\Documents\\education\\CS230\\Lab 6\\WikipediaMonaLisa.bmp";
+	char PictureFileIN[] = "C:\\Users\\hasti\\iCloudDrive\\My Documents\\Educational_\\Pierce college\\CS 230\\homework\\CC230_Lab6_readbitmap\\Temp\\WikipediaMonaLisa.bmp";
 
 	// Define and read in the input file.
 	ifstream bmpIn(PictureFileIN, ios::in + ios::binary);
@@ -70,7 +70,8 @@ int main(int argc, char* argv[])
 	ifstream ColorFileIn;
 	RGB_NAME searchColorArr[NUM_INPUT_COLORS];
 	uint8_t* pBitMap;
-	int numColorsFound = 0, totalMatch=0, response;
+	int numColorsFound = 0, totalMatch = 0, response, totalPadding = 0, rowPadding = (bmih.biWidth * 3) % 4;
+	cout << "ROW PADDING: " << rowPadding << endl;
 	stringstream ssMessage;
 	string message;
 	wstring wmessage;
@@ -109,6 +110,18 @@ int main(int argc, char* argv[])
 
 	pBitMap = static_cast<uint8_t*>(imageData);
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
+		for (int h = 0; h < bmih.biHeight; h++) {
+			for (int w = 0; w < bmih.biWidth; w++) {
+				if (pBitMap[3 * (h * bmih.biWidth + w) + totalPadding] == searchColorArr[i].blue &&
+					pBitMap[3 * (h * bmih.biWidth + w) + 1 + totalPadding] == searchColorArr[i].green &&
+					pBitMap[3 * (h * bmih.biWidth + w) + 2 + totalPadding] == searchColorArr[i].red) {
+					searchColorArr[i].count++;
+					totalMatch++;
+				}
+				totalPadding += rowPadding;
+			}
+		}
+			/*
 		for (int j = 0; j < bmih.biHeight * bmih.biWidth; j++) {
 			if (pBitMap[3 * j] == searchColorArr[i].blue &&
 				pBitMap[3 * j + 1] == searchColorArr[i].green &&
@@ -117,6 +130,7 @@ int main(int argc, char* argv[])
 				totalMatch++;
 			}
 		}
+		*/
 		if (searchColorArr[i].count > 0) {
 			numColorsFound++;
 		}
@@ -131,7 +145,9 @@ int main(int argc, char* argv[])
 
 	if (response == IDYES) {
 		for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-			cout << left << setw(4) <<  searchColorArr[i].red << setw(4) << searchColorArr[i].green << setw(4) << searchColorArr[i].blue << searchColorArr[i].colorName << endl;
+			cout << left << setw(4) <<  searchColorArr[i].red << setw(4) << searchColorArr[i].green << setw(4) << searchColorArr[i].blue 
+				<< right  << setw(NAME_WIDTH) << searchColorArr[i].colorName
+				<< "Pixel count: " << searchColorArr[i].count << endl;
 		}
 	}
 
