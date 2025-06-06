@@ -1,27 +1,5 @@
-/*
-typedef struct tagBITMAPFILEHEADER {
-	WORD  bfType;      // File type; must be 'BM' (0x4D42) for bitmap files
-	DWORD bfSize;      // Size of the file in bytes
-	WORD  bfReserved1; // Reserved; must be zero
-	WORD  bfReserved2; // Reserved; must be zero
-	DWORD bfOffBits;   // Offset, in bytes, from the beginning of the file to the bitmap data (pixel array)
-} BITMAPFILEHEADER;
-
-typedef struct tagBITMAPINFOHEADER {
-	DWORD biSize;          // Size of this header in bytes (should be 40 for BITMAPINFOHEADER)
-	LONG  biWidth;         // Width of the image in pixels
-	LONG  biHeight;        // Height of the image in pixels
-	WORD  biPlanes;        // Number of color planes (must be 1)
-	WORD  biBitCount;      // Number of bits per pixel (color depth)
-	DWORD biCompression;   // Compression method (0 = BI_RGB, no compression)
-	DWORD biSizeImage;     // Size of the image data in bytes (may be 0 for uncompressed images)
-	LONG  biXPelsPerMeter; // Horizontal resolution (pixels per meter)
-	LONG  biYPelsPerMeter; // Vertical resolution (pixels per meter)
-	DWORD biClrUsed;       // Number of colors in the color palette (0 = default)F
-	DWORD biClrImportant;  // Number of important colors (0 = all colors are important)
-} BITMAPINFOHEADER;
-
-*/
+/* CS230 SP25 Lab 4  Salsali, Hasti
+Visual Studio */
 
 #include <iostream>
 #include <fstream>
@@ -43,7 +21,7 @@ struct RGB_NAME {
 int main(int argc, char* argv[])
 {
 	clock_t start = clock();
-	cout << "CS230 Lab 6 - Reading a Bitmap File\n";
+	cout << "CS230 Lab 6 - Reading a Bitmap File\n""Hasti Salsali\n";
 	BITMAPFILEHEADER bmfh;
 	BITMAPINFOHEADER bmih;
 	char PictureFileIN[] = "C:\\Users\\hasti\\OneDrive\\Documents\\education\\CS230\\Lab 6\\WikipediaMonaLisa.bmp";
