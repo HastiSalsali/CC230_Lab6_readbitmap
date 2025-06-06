@@ -57,10 +57,10 @@ int main(int argc, char* argv[])
 	bmpIn.read((char*)&bmfh, sizeof(bmfh));
 	if (bmpIn.fail() || bmpIn.bad()) {
 		cout << "Error reading input file, ending\n";
-		return(- 1);
+		return(-1);
 	}
 	cout << "BMFH Size:" << bmfh.bfSize << " Offset:" << bmfh.bfOffBits << '\n';
-	bmpIn.read((char*)&bmih, sizeof(bmih)); 
+	bmpIn.read((char*)&bmih, sizeof(bmih));
 	if (bmpIn.fail() || bmpIn.bad()) {
 		cout << "Error reading BITMAPINFOHEADER, ending\n";
 		return -1;
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
 	cout << "Width:" << bmih.biWidth << '\n';
 
-	
+
 	bmih.biSize = 40;
 	cout << "Width:" << bmih.biWidth << '\n';
 	cout << "Height:" << bmih.biHeight << '\n';
@@ -86,17 +86,17 @@ int main(int argc, char* argv[])
 	}
 
 	//========================================================================
-	
+
 	DWORD imageSize = bmih.biSizeImage;
 	LPVOID imageData;
 	ifstream ColorFileIn;
 	RGB_NAME searchColorArr[NUM_INPUT_COLORS];
-	uint8_t *pBitMap;
+	uint8_t* pBitMap;
 	int numColorsFound = 0;
 
 
 	ColorFileIn.open("C:\\Users\\hasti\\iCloudDrive\\My Documents\\Educational_\\Pierce college\\CS 230\\homework\\CC230_Lab6_readbitmap\\Temp\\Colors64.txt");
-	if (ColorFileIn.fail() || ColorFileIn.bad()){
+	if (ColorFileIn.fail() || ColorFileIn.bad()) {
 		cout << "Error reading input file, ending\n";
 		return(-1);
 	}
@@ -110,25 +110,27 @@ int main(int argc, char* argv[])
 		cout << "VirtualAlloc failed, ending\n";
 		return -1;
 	};
-
+	//read bitmap into imageData
 	bmpIn.seekg(bmfh.bfOffBits, ios::beg);
 	bmpIn.read((char*)imageData, imageSize);
-
 	if (bmpIn.fail() || bmpIn.bad()) {
 		cout << "Error reading image data, ending\n";
 		VirtualFree(imageData, 0, MEM_RELEASE);
 		return -1;
 	}
-
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-		ColorFileIn >> searchColorArr[i].red >> searchColorArr[i].green >>  searchColorArr[i].blue;
-
+		ColorFileIn >> searchColorArr[i].red >> searchColorArr[i].green >> searchColorArr[i].blue;
 		getline(ColorFileIn, searchColorArr[i].colorName);
+		for (int j = 0; j < searchColorArr[i].colorName.length(); j++){
+			if (searchColorArr[i].colorName[j] != ' ') {
+				cout << "____________>  " << j << endl;
+				searchColorArr[i].colorName = searchColorArr[i].colorName.substr(j, searchColorArr[i].colorName.length() - j);
+				j = searchColorArr[i].colorName.length();
+			}
+		}
 		cout << searchColorArr[i].red << " " << searchColorArr[i].green << " " << searchColorArr[i].blue << " " << searchColorArr[i].colorName << endl;
 	}
-	//Read bitmap into imageData
-	bmpIn.seekg(bmfh.bfOffBits, ios::beg);
-	bmpIn.read(reinterpret_cast<char*>(imageData), /*bmih.biWidth * bmih.biHeight*/ imageSize);
+	
 
 	pBitMap = static_cast<uint8_t*>(imageData);
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
@@ -145,7 +147,13 @@ int main(int argc, char* argv[])
 			numColorsFound++;
 		}
 	}
+	cout << "\nThe number of colors found in image: " << numColorsFound << endl;
 
+	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
+		if (searchColorArr[i].count) {
+			cout << searchColorArr[i].colorName << " was found " << searchColorArr[i].count << " times\n";
+		}
+	}
 	VirtualFree(imageData, 0, MEM_RELEASE);
 	
 
