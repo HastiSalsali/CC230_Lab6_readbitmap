@@ -9,7 +9,7 @@ Visual Studio */
 #include "windows.h"
 using namespace std;
 
-const int NUM_INPUT_COLORS = 64, NAME_WIDTH = 30;
+const int NUM_INPUT_COLORS = 64, NAME_WIDTH = 25, NUM_WIDTH = 4;
 struct RGB_NAME {
 	int red;
 	int green;
@@ -90,6 +90,8 @@ int main(int argc, char* argv[])
 	);
 	if (imageData == NULL) {
 		cout << "VirtualAlloc failed, ending\n";
+		bmpIn.close();
+		ColorFileIn.close();
 		return -1;
 	};
 	//read bitmap into imageData
@@ -144,8 +146,8 @@ int main(int argc, char* argv[])
 
 	if (response == IDYES) {
 		for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-			cout << left << setw(4) <<  searchColorArr[i].red << setw(4) << searchColorArr[i].green << setw(4) << searchColorArr[i].blue 
-				<< right  << setw(NAME_WIDTH) << searchColorArr[i].colorName
+			cout << right << setw(NUM_WIDTH) <<  searchColorArr[i].red << setw(NUM_WIDTH) << searchColorArr[i].green << setw(NUM_WIDTH) << searchColorArr[i].blue
+				<< left << " " << setw(NAME_WIDTH) << searchColorArr[i].colorName
 				<< "Pixel count: " << searchColorArr[i].count << endl;
 		}
 	}
