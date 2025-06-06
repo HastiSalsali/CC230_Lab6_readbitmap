@@ -69,9 +69,6 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	cout << "Width:" << bmih.biWidth << '\n';
-
-
 	bmih.biSize = 40;
 	cout << "Width:" << bmih.biWidth << '\n';
 	cout << "Height:" << bmih.biHeight << '\n';
@@ -156,7 +153,7 @@ int main(int argc, char* argv[])
 
 	if (response == IDYES) {
 		for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-			cout << setw(4) <<  searchColorArr[i].red << setw(4) << searchColorArr[i].green << setw(4) << searchColorArr[i].blue << searchColorArr[i].colorName << endl;
+			cout << left << setw(4) <<  searchColorArr[i].red << setw(4) << searchColorArr[i].green << setw(4) << searchColorArr[i].blue << searchColorArr[i].colorName << endl;
 		}
 	}
 
