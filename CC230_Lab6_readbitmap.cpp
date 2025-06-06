@@ -42,6 +42,7 @@ struct RGB_NAME {
 
 int main(int argc, char* argv[])
 {
+	clock_t start = clock();
 	cout << "CS230 Lab 6 - Reading a Bitmap File\n";
 	BITMAPFILEHEADER bmfh;
 	BITMAPINFOHEADER bmih;
@@ -128,19 +129,16 @@ int main(int argc, char* argv[])
 		ColorFileIn >> searchColorArr[i].red >> searchColorArr[i].green >> searchColorArr[i].blue;
 		getline(ColorFileIn, searchColorArr[i].colorName);
 		searchColorArr[i].colorName = searchColorArr[i].colorName.substr(1, searchColorArr[i].colorName.length() - 1);
-		cout << searchColorArr[i].red << " " << searchColorArr[i].green << " " << searchColorArr[i].blue << " " << searchColorArr[i].colorName << endl;
 	}
 	
 
 	pBitMap = static_cast<uint8_t*>(imageData);
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-		cout << "checking for color " << searchColorArr[i].colorName << endl;
 		for (int j = 0; j < bmih.biHeight * bmih.biWidth; j++) {
 			if (pBitMap[3 * j] == searchColorArr[i].blue &&
 				pBitMap[3 * j + 1] == searchColorArr[i].green &&
 				pBitMap[3 * j + 2] == searchColorArr[i].red) {
 				searchColorArr[i].count++;
-				cout << "found the color " << searchColorArr[i].colorName << endl;
 				totalMatch++;
 			}
 		}
@@ -148,13 +146,7 @@ int main(int argc, char* argv[])
 			numColorsFound++;
 		}
 	}
-	cout << "\nThe number of colors found in image: " << numColorsFound << endl;
-
-	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-		if (searchColorArr[i].count) {
-			cout << searchColorArr[i].colorName << " was found " << searchColorArr[i].count << " times\n";
-		}
-	}
+	
 	ssMessage << "The number of colors matched in image: " << numColorsFound << "\n"
 		<< "Total number of matches: " << totalMatch;
 	message = ssMessage.str();
@@ -164,13 +156,14 @@ int main(int argc, char* argv[])
 
 	if (response == IDYES) {
 		for (int i = 0; i < NUM_INPUT_COLORS; i++) {
-			cout << searchColorArr[i].red << " " << searchColorArr[i].green << " " << searchColorArr[i].blue << " " << searchColorArr[i].colorName << endl;
+			cout << setw(4) <<  searchColorArr[i].red << setw(4) << searchColorArr[i].green << setw(4) << searchColorArr[i].blue << searchColorArr[i].colorName << endl;
 		}
 	}
 
 	VirtualFree(imageData, 0, MEM_RELEASE);
 	bmpIn.close();
 	ColorFileIn.close();
-
+	clock_t end = clock();
+	cout << "CPU time used: " << end - start << " seconds\n";
 	return 0;
 }
