@@ -26,6 +26,8 @@ typedef struct tagBITMAPINFOHEADER {
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include "windows.h"
 using namespace std;
 
@@ -92,7 +94,11 @@ int main(int argc, char* argv[])
 	ifstream ColorFileIn;
 	RGB_NAME searchColorArr[NUM_INPUT_COLORS];
 	uint8_t* pBitMap;
-	int numColorsFound = 0;
+	int numColorsFound = 0, totalMatch=0, response;
+	stringstream ssMessage;
+	string message;
+	wstring wmessage;
+	LPCTSTR lpMessage;
 
 
 	ColorFileIn.open("C:\\Users\\hasti\\iCloudDrive\\My Documents\\Educational_\\Pierce college\\CS 230\\homework\\CC230_Lab6_readbitmap\\Temp\\Colors64.txt");
@@ -121,13 +127,7 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < NUM_INPUT_COLORS; i++) {
 		ColorFileIn >> searchColorArr[i].red >> searchColorArr[i].green >> searchColorArr[i].blue;
 		getline(ColorFileIn, searchColorArr[i].colorName);
-		for (int j = 0; j < searchColorArr[i].colorName.length(); j++){
-			if (searchColorArr[i].colorName[j] != ' ') {
-				cout << "____________>  " << j << endl;
-				searchColorArr[i].colorName = searchColorArr[i].colorName.substr(j, searchColorArr[i].colorName.length() - j);
-				j = searchColorArr[i].colorName.length();
-			}
-		}
+		searchColorArr[i].colorName = searchColorArr[i].colorName.substr(1, searchColorArr[i].colorName.length() - 1);
 		cout << searchColorArr[i].red << " " << searchColorArr[i].green << " " << searchColorArr[i].blue << " " << searchColorArr[i].colorName << endl;
 	}
 	
@@ -141,6 +141,7 @@ int main(int argc, char* argv[])
 				pBitMap[3 * j + 2] == searchColorArr[i].red) {
 				searchColorArr[i].count++;
 				cout << "found the color " << searchColorArr[i].colorName << endl;
+				totalMatch++;
 			}
 		}
 		if (searchColorArr[i].count > 0) {
@@ -154,8 +155,22 @@ int main(int argc, char* argv[])
 			cout << searchColorArr[i].colorName << " was found " << searchColorArr[i].count << " times\n";
 		}
 	}
+	ssMessage << "The number of colors matched in image: " << numColorsFound << "\n"
+		<< "Total number of matches: " << totalMatch;
+	message = ssMessage.str();
+	wmessage = wstring(message.begin(), message.end());
+	lpMessage = wmessage.c_str();
+	response = MessageBox(NULL,lpMessage, L"Do you want me to display all 64 RGB codes?", MB_YESNO | MB_ICONINFORMATION);
+
+	if (response == IDYES) {
+		for (int i = 0; i < NUM_INPUT_COLORS; i++) {
+			cout << searchColorArr[i].red << " " << searchColorArr[i].green << " " << searchColorArr[i].blue << " " << searchColorArr[i].colorName << endl;
+		}
+	}
+
 	VirtualFree(imageData, 0, MEM_RELEASE);
-	
+	bmpIn.close();
+	ColorFileIn.close();
 
 	return 0;
 }
