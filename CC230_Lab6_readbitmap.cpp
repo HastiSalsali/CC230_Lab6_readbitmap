@@ -71,7 +71,6 @@ int main(int argc, char* argv[])
 	RGB_NAME searchColorArr[NUM_INPUT_COLORS];
 	uint8_t* pBitMap;
 	int numColorsFound = 0, totalMatch = 0, response, totalPadding = 0, rowPadding = (bmih.biWidth * 3) % 4;
-	cout << "ROW PADDING: " << rowPadding << endl;
 	stringstream ssMessage;
 	string message;
 	wstring wmessage;
